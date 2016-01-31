@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/lcrespom/light-sabre/issues"
   },
-  "homepage": "https://github.com/lcrespom/light-sabre"
+  "homepage": "https://github.com/lcrespom/light-sabre",
+  "devDependencies": {
+    "http-server": "^0.8.5"
+  }
 }
