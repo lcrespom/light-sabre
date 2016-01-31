@@ -1,6 +1,7 @@
 $(function() {
 	var ac = setupWA();
 	var buf_ls_on, buf_ls_off, buf_ls_swing, buf_ls_hum;
+	var playing = false;
 
 	$('#ls_on').click(function() {
 		playBuffer(buf_ls_on);
