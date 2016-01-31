@@ -15,6 +15,10 @@ $(function() {
 		playBuffer(buf_ls_hum, true);
 	});
 
+	setupAccelerometer(function() {
+		playBuffer(buf_ls_swing);
+	});
+
 	function playBuffer(buf, loop) {
 		if (!buf) return;
 		var bufSrc = ac.createBufferSource();
@@ -49,6 +53,36 @@ $(function() {
 			});
 		};
 		xhr.send();
+	}
+
+	var oldX = 0, oldY = 0, oldZ = 0, varX, varY, varZ;
+	// every unit on X and Y axis is equivalent to 2º of movement
+	var variation = 10;
+
+	var tilt = function(cb, x, y, z) {
+		varX = Math.abs(x - oldX);
+		varY = Math.abs(y - oldY);
+		varZ = Math.abs(z - oldZ);
+		if(varZ > variation || varX > variation || varY > variation) {
+			oldX = x; oldY = y; oldZ = z;
+			cb();
+		}
+	};
+
+	function setupAccelerometer(cb) {
+		if (window.DeviceOrientationEvent) {
+			window.addEventListener("deviceorientation", function () {
+				tilt(cb, event.beta, event.gamma, event.alpha);
+			}, true);
+		} else if (window.DeviceMotionEvent) {
+			window.addEventListener('devicemotion', function () {
+				tilt(cb, event.acceleration.x * 2, event.acceleration.y * 2, event.acceleration.z * 2);
+			}, true);
+		} else {
+			window.addEventListener("MozOrientation", function () {
+				tilt(cb, orientation.x * 50, orientation.y * 50, orientation.z * 50);
+			}, true);
+		}
 	}
 
 });
