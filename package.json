@@ -4,7 +4,8 @@
   "description": "Angular Camp Web Audio Workshop: move the mobile and play with light sabre",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"serve": "http-server -c-1"
   },
   "repository": {
     "type": "git",
