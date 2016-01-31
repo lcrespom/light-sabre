@@ -1,9 +1,15 @@
 $(function() {
 	var ac = setupWA();
-	var buf_ls_on;
+	var buf_ls_on, buf_ls_off, buf_ls_swing;
 
-	$('#sound1').click(_ => {
+	$('#ls_on').click(_ => {
 		playBuffer(buf_ls_on);
+	});
+	$('#ls_off').click(_ => {
+		playBuffer(buf_ls_off);
+	});
+	$('#ls_swing').click(_ => {
+		playBuffer(buf_ls_swing);
 	});
 
 	function playBuffer(buf) {
@@ -17,6 +23,8 @@ $(function() {
 	function setupWA() {
 		var ac = new AudioContext();
 		loadBuffer(ac, 'audio/saber-opening-short.wav', buffer => buf_ls_on = buffer);
+		loadBuffer(ac, 'audio/close.m4a', buffer => buf_ls_off = buffer);
+		loadBuffer(ac, 'audio/Light Saber Sounds-2-a.wav', buffer => buf_ls_swing = buffer);
 		return ac;
 	}
 
