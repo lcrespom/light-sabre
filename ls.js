@@ -1,26 +1,22 @@
 $(function() {
 	var ac = setupWA();
 	var buf_ls_on, buf_ls_off, buf_ls_swing, buf_ls_hum;
-	var playing = false;
+	var humNode;
 
 	$('#ls_on').click(function() {
 		playBuffer(buf_ls_on);
+		humNode = playBuffer(buf_ls_hum, true, 1);
 	});
 	$('#ls_off').click(function() {
 		playBuffer(buf_ls_off);
-	});
-	$('#ls_swing').click(function() {
-		playBuffer(buf_ls_swing);
-	});
-	$('#ls_hum').click(function() {
-		playBuffer(buf_ls_hum, true);
+		if (humNode) humNode.stop(ac.currentTime + 1);
 	});
 
 	setupAccelerometer(function() {
 		playBuffer(buf_ls_swing);
 	});
 
-	function playBuffer(buf, loop) {
+	function playBuffer(buf, loop, when) {
 		if (!buf) return;
 		var bufSrc = ac.createBufferSource();
 		bufSrc.buffer = buf;
@@ -30,7 +26,9 @@ $(function() {
 			bufSrc.loopEnd = 9999999;
 		}
 		bufSrc.connect(ac.destination);
-		bufSrc.start();
+		if (!when) when = 0;
+		bufSrc.start(ac.currentTime + when);
+		return bufSrc;
 	}
 
 	function setupWA() {
